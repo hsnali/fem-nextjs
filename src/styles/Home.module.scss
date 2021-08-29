@@ -1,6 +1,7 @@
 .container {
-  @apply bg-red-200
-    min-h-screen
+  @apply min-h-screen
+    bg-gradient-to-br
+    from-green-400 to-blue-500
     p-3
     flex
     flex-col
@@ -34,8 +35,13 @@
   justify-content: center;
 }
 
+.title {
+  &__anchor {
+    @apply text-pink-300;
+  }
+}
 .title a {
-  color: #0070f3;
+  // color: #0070f3;
   text-decoration: none;
 }
 
@@ -71,14 +77,16 @@
 }
 
 .grid {
-  @apply bg-blue-400;
-  align-items: center;
+  @apply my-8 justify-center max-w-4xl grid-cols-2 gap-4;
 
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  margin-top: 3rem;
-  max-width: 800px;
+  display: grid;
+  // align-items: center;
+
+  // display: flex;
+  // flex-wrap: wrap;
+  // justify-content: center;
+  // margin-top: 3rem;
+  // max-width: 800px;
 }
 
 .card {
@@ -90,7 +98,7 @@
   text-align: left;
   text-decoration: none;
   transition: color 0.15s ease, border-color 0.15s ease;
-  width: 40%;
+  // width: 40%;
 }
 
 .card:hover,
