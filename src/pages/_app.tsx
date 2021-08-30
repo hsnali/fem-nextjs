@@ -1,7 +1,16 @@
-import '../styles/globals.scss'
-import type { AppProps } from 'next/app'
+/** @jsxImportSource theme-ui */
 
-function App({ Component, pageProps }: AppProps) {
-  return <Component {...pageProps} />
+import { ThemeProvider } from "theme-ui";
+import theme from "@root/theme";
+import Nav from "@components/nav/Nav";
+
+export default function App({ Component, pageProps }) {
+  return (
+    <ThemeProvider theme={theme}>
+      <div>
+        <Nav />
+        <Component {...pageProps} />
+      </div>
+    </ThemeProvider>
+  );
 }
-export default App
