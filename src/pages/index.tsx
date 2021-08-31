@@ -1,4 +1,5 @@
 import Link from "next/link";
+import styles from "@styles/Home.module.scss";
 
 const Home = () => (
   <div sx={{ height: `calc(100vh - 60px)` }}>
