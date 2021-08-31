@@ -1,5 +1,3 @@
-/** @jsxImportSource theme-ui */
-
 import { ThemeProvider } from "theme-ui";
 import theme from "@root/theme";
 import Nav from "@components/nav/Nav";

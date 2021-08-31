@@ -1,8 +1,5 @@
-/** @jsxImportSource theme-ui */
-
 import type { NextPage } from "next";
 import { useRouter } from "next/router";
-import Link from "next/link";
 
 const Note: NextPage = () => {
   const router = useRouter();
