@@ -1,12 +1,14 @@
+// @ts-nocheck
 import type { NextPage } from "next";
 import { useRouter } from "next/router";
+import styles from "./notes.module.scss";
 
 const Note: NextPage = () => {
   const router = useRouter();
   const { id } = router.query;
 
   return (
-    <div sx={{ variant: "containers.page" }}>
+    <div className={styles.notes__note}>
       <h1>Note: {id} </h1>
     </div>
   );

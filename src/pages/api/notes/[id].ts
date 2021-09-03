@@ -1,3 +1,4 @@
+// @ts-nocheck
 import nc from "next-connect";
 import notes from "@data/notes";
 

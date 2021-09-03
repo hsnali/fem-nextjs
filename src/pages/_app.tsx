@@ -1,15 +1,13 @@
-import { ThemeProvider } from "theme-ui";
-import theme from "@root/theme";
-import Nav from "@components/nav/Nav";
+import { AppProps } from "next/app";
+
+import Header from "@root/src/components/header/header";
 import "@styles/globals.scss";
 
-export default function App({ Component, pageProps }) {
+export default function App({ Component, pageProps }: AppProps) {
   return (
-    <ThemeProvider theme={theme}>
-      <div>
-        <Nav />
-        <Component {...pageProps} />
-      </div>
-    </ThemeProvider>
+    <>
+      <Header />
+      <Component {...pageProps} />
+    </>
   );
 }

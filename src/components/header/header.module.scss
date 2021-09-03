@@ -1,0 +1,13 @@
+.header {
+  @apply bg-blue-700
+    text-white
+    p-5
+    text-xl
+
+    lg:text-4xl
+    lg:py-10;
+
+  align-items: center;
+  display: flex;
+  justify-content: center;
+}

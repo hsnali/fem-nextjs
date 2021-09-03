@@ -1,17 +1,14 @@
+// @ts-nocheck
 import Link from "next/link";
 import styles from "@styles/Home.module.scss";
 
 const Home = ({ content }) => (
-  <div sx={{ height: `calc(100vh - 60px)` }}>
-    <div
-      sx={{
-        variant: "containers.page",
-        display: "flex",
-        alignItems: "center",
-        height: "100%",
-      }}
-    >
-      <h1 sx={{ fontSize: 8, my: 0 }}>{content.title}</h1>
+  <div className={styles.home}>
+    <div>
+      <h1 className={styles.title}>{content.title}</h1>
+      <Link href="/notes">
+        <a className={styles.button}>View all notes</a>
+      </Link>
     </div>
   </div>
 );

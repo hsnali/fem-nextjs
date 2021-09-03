@@ -1,0 +1,23 @@
+.notes {
+  @apply p-5 max-w-screen-lg mx-auto;
+
+  &__items {
+    @apply my-11 grid gap-4 md:grid-cols-2 lg:grid-cols-3;
+  }
+
+  &__item {
+    @apply p-5
+      border-gray-200
+      border
+      rounded-md
+      text-center
+      transition-all
+      duration-150
+
+      hover:bg-gray-200;
+  }
+
+  &__note {
+    @apply text-4xl text-center my-11;
+  }
+}

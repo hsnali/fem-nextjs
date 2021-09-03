@@ -1,26 +1,17 @@
+// @ts-nocheck
 import Link from "next/link";
+import styles from "./notes.module.scss";
 
 const Notes = ({ notes }) => {
   return (
-    <div sx={{ variant: "containers.page" }}>
-      <h1>My Notes</h1>
-
-      <div
-        sx={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          flexWrap: "wrap",
-        }}
-      >
+    <div className={styles.notes}>
+      <div className={styles.notes__items}>
         {notes.map((note) => (
-          <div sx={{ width: "33%", p: 2 }} key={note.id}>
-            <Link href="/notes/[id]" as={`/notes/${note.id}`} passHref>
-              <a sx={{ textDecoration: "none", cursor: "pointer" }}>
-                <div sx={{ variant: "containers.card" }}>
-                  <strong>
-                    {note.title} - {note.id}
-                  </strong>
+          <div key={note.id} className={styles.notes__item}>
+            <Link href="/notes/[id]" as={`/notes/${note.id}`}>
+              <a>
+                <div>
+                  <strong>{note.title}</strong>
                 </div>
               </a>
             </Link>
