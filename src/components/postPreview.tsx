@@ -1,8 +1,12 @@
-import React, { FC } from 'react'
-import { Pane, Heading, Paragraph, Button, majorScale } from 'evergreen-ui'
-import Link from 'next/link'
+// @ts-nocheck
 
-const PostPreview: FC<{ post: { title: string; summary: string; slug: string } }> = ({ post }) => {
+import React, { FC } from "react";
+import { Pane, Heading, Paragraph, Button, majorScale } from "evergreen-ui";
+import Link from "next/link";
+
+const PostPreview: FC<{
+  post: { title: string; summary: string; slug: string };
+}> = ({ post }) => {
   return (
     <Pane padding={majorScale(2)} border borderRadius={4}>
       <Heading size={700} marginBottom={majorScale(2)}>
@@ -19,6 +23,6 @@ const PostPreview: FC<{ post: { title: string; summary: string; slug: string } }
         </Link>
       </Pane>
     </Pane>
-  )
-}
-export default PostPreview
+  );
+};
+export default PostPreview;

@@ -1,6 +1,8 @@
-import React from 'react'
-import Link from 'next/link'
-import { Text } from 'evergreen-ui'
+// @ts-nocheck
+
+import React from "react";
+import Link from "next/link";
+import { Text } from "evergreen-ui";
 
 const Logo = ({ ...styles }) => {
   return (
@@ -11,7 +13,7 @@ const Logo = ({ ...styles }) => {
         </Text>
       </a>
     </Link>
-  )
-}
+  );
+};
 
-export default Logo
+export default Logo;

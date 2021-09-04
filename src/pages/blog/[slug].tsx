@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 import React, { FC } from "react";
 import path from "path";
 import fs from "fs";

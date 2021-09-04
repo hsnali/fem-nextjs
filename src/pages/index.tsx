@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 import React, { FC } from "react";
 import { Pane, majorScale } from "evergreen-ui";
 import Container from "@components/container";

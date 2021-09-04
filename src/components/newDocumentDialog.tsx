@@ -1,17 +1,19 @@
-import React, { useState } from 'react'
-import { Dialog, TextInput } from 'evergreen-ui'
+// @ts-nocheck
+
+import React, { useState } from "react";
+import { Dialog, TextInput } from "evergreen-ui";
 
 const NewDocDialog = ({ onNewDoc, close, ...props }) => {
-  const [name, setName] = useState('')
-  const [saving, setSaving] = useState(false)
+  const [name, setName] = useState("");
+  const [saving, setSaving] = useState(false);
 
   const handleNewDocument = async () => {
-    setSaving(true)
-    await onNewDoc(name)
-    setSaving(false)
-    setName('')
-    close()
-  }
+    setSaving(true);
+    await onNewDoc(name);
+    setSaving(false);
+    setName("");
+    close();
+  };
 
   return (
     <Dialog
@@ -24,9 +26,13 @@ const NewDocDialog = ({ onNewDoc, close, ...props }) => {
       onCancel={close}
       onCloseComplete={close}
     >
-      <TextInput value={name} onChange={(e) => setName(e.target.value)} placeholder="doc name" />
+      <TextInput
+        value={name}
+        onChange={(e) => setName(e.target.value)}
+        placeholder="doc name"
+      />
     </Dialog>
-  )
-}
+  );
+};
 
-export default NewDocDialog
+export default NewDocDialog;

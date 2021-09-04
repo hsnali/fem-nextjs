@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 import React from "react";
 import { Pane, majorScale } from "evergreen-ui";
 import matter from "gray-matter";

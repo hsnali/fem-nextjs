@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 import React, { FC, useState, useEffect, useRef } from "react";
 import Embed from "@editorjs/embed";
 import Table from "@editorjs/table";

@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 // fixes a bug for next-auth and mongodb atlas somehow
 // https://github.com/nextauthjs/next-auth/issues/833
 import "reflect-metadata";
