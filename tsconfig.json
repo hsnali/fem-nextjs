@@ -20,7 +20,8 @@
       "@components/*": ["src/components/*"],
       "@pages/*": ["src/pages/*"],
       "@data/*": ["src/data/*"],
-      "@styles/*": ["src/styles/*"]
+      "@styles/*": ["src/styles/*"],
+      "@utils/*": ["src/utils/*"]
     },
     "plugins": [{ "name": "typescript-plugin-css-modules" }]
   },
