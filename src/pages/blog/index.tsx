@@ -34,7 +34,7 @@ Blog.defaultProps = {
   posts: [],
 };
 
-export function getStaticProps() {
+export function getStaticProps(ctx) {
   const postsPath = path.join(process.cwd(), "src/posts");
   const fileNames = fs.readdirSync(postsPath);
   const filePosts = fileNames.map((name) => {
@@ -42,9 +42,9 @@ export function getStaticProps() {
     return file;
   });
 
-  const posts = [...postsFromCMS.published, ...filePosts].map(
-    (post) => matter(post).data
-  );
+  const cmsPosts = ctx.preview ? postsFromCMS.draft : postsFromCMS.published;
+
+  const posts = [...cmsPosts, ...filePosts].map((post) => matter(post).data);
 
   return {
     props: {

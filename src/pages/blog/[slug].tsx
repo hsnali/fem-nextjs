@@ -12,6 +12,7 @@ import { useRouter } from "next/router";
 import { Post } from "@src/@types/interfaces";
 import Container from "@components/container";
 import HomeNav from "@components/homeNav";
+import { posts as postsFromCMS } from "@data/content";
 
 const BlogPost: FC<Post> = ({ source, frontMatter }) => {
   const content = hydrate(source);
@@ -60,24 +61,47 @@ export function getStaticPaths() {
     .readdirSync(postsPath)
     .map((filename) => path.parse(filename).name);
 
+  const cmsPosts = postsFromCMS.published.map((post) => {
+    const { data } = matter(post);
+    return data.slug;
+  });
+
+  const paths = [...fileNames, ...cmsPosts].map((slug) => ({
+    params: {
+      slug,
+    },
+  }));
+
   return {
-    paths: fileNames.map((name) => ({
-      params: {
-        slug: name,
-      },
-    })),
-    fallback: false,
+    paths,
+    fallback: true,
   };
 }
 
-export async function getStaticProps({ params }) {
-  const postsPath = path.join(process.cwd(), "src/posts");
-  const file = fs.readFileSync(
-    path.join(postsPath, `${params.slug}.mdx`),
-    "utf-8"
-  );
-  const { data: frontMatter } = matter(file);
-  const source = await renderToString(file, { scope: frontMatter });
+export async function getStaticProps({ params, preview }) {
+  let post = null;
+
+  try {
+    const postsPath = path.join(process.cwd(), "src/posts");
+    const file = fs.readFileSync(
+      path.join(postsPath, `${params.slug}.mdx`),
+      "utf-8"
+    );
+
+    post = file;
+  } catch (error) {
+    const posts = preview ? postsFromCMS.draft : postsFromCMS.published;
+
+    post = posts.find((item) => {
+      const { data } = matter(item);
+
+      return data.slug === params.slug;
+    });
+  }
+
+  const { content, data: frontMatter } = matter(post);
+  const source = await renderToString(content, { scope: frontMatter });
+
   return {
     props: {
       source,
