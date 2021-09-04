@@ -1,5 +1,9 @@
 import React, { FC } from "react";
+import path from "path";
+import fs from "fs";
 import hydrate from "next-mdx-remote/hydrate";
+import renderToString from "next-mdx-remote/render-to-string";
+import matter from "gray-matter";
 import { majorScale, Pane, Heading, Spinner } from "evergreen-ui";
 import Head from "next/head";
 import { useRouter } from "next/router";
@@ -47,6 +51,38 @@ BlogPost.defaultProps = {
   source: "",
   frontMatter: { title: "default title", summary: "summary", publishedOn: "" },
 };
+
+export function getStaticPaths() {
+  const postsPath = path.join(process.cwd(), "src/posts");
+  const fileNames = fs
+    .readdirSync(postsPath)
+    .map((filename) => path.parse(filename).name);
+
+  return {
+    paths: fileNames.map((name) => ({
+      params: {
+        slug: name,
+      },
+    })),
+    fallback: false,
+  };
+}
+
+export async function getStaticProps({ params }) {
+  const postsPath = path.join(process.cwd(), "src/posts");
+  const file = fs.readFileSync(
+    path.join(postsPath, `${params.slug}.mdx`),
+    "utf-8"
+  );
+  const { data: frontMatter } = matter(file);
+  const source = await renderToString(file, { scope: frontMatter });
+  return {
+    props: {
+      source,
+      frontMatter,
+    },
+  };
+}
 
 /**
  * Need to get the paths here
