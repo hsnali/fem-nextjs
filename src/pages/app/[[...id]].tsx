@@ -3,13 +3,15 @@
 import React, { FC, useState } from "react";
 import { Pane, Dialog, majorScale } from "evergreen-ui";
 import { useRouter } from "next/router";
-import Logo from "../../components/logo";
-import FolderList from "../../components/folderList";
-import NewFolderButton from "../../components/newFolderButton";
-import User from "../../components/user";
-import FolderPane from "../../components/folderPane";
-import DocPane from "../../components/docPane";
-import NewFolderDialog from "../../components/newFolderDialog";
+import { getSession, useSession } from "next-auth/client";
+import Logo from "@components/logo";
+import FolderList from "@components/folderList";
+import NewFolderButton from "@components/newFolderButton";
+import User from "@components/user";
+import FolderPane from "@components/folderPane";
+import DocPane from "@components/docPane";
+import NewFolderDialog from "@components/newFolderDialog";
+import { folder, doc, connectToDB } from "@src/db";
 
 const App: FC<{
   folders?: any[];
@@ -18,7 +20,25 @@ const App: FC<{
   activeDocs?: any[];
 }> = ({ folders, activeDoc, activeFolder, activeDocs }) => {
   const router = useRouter();
+  const [session, loading] = useSession();
+
   const [newFolderIsShown, setIsShown] = useState(false);
+  const [allFolders, setFolders] = useState(folders || []);
+
+  if (loading) return null;
+
+  const handleNewFolder = async (name: string) => {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_HOST}/api/folder/`, {
+      method: "POST",
+      body: JSON.stringify({ name }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    const { data } = await res.json();
+    setFolders((state) => [...state, data]);
+  };
 
   const Page = () => {
     if (activeDoc) {
@@ -32,7 +52,7 @@ const App: FC<{
     return null;
   };
 
-  if (false) {
+  if (!session && !loading) {
     return (
       <Dialog
         isShown
@@ -71,7 +91,7 @@ const App: FC<{
           <NewFolderButton onClick={() => setIsShown(true)} />
         </Pane>
         <Pane>
-          <FolderList folders={folders} />{" "}
+          <FolderList folders={allFolders} />{" "}
         </Pane>
       </Pane>
       <Pane
@@ -81,20 +101,16 @@ const App: FC<{
         overflowY="auto"
         position="relative"
       >
-        <User user={{}} />
+        <User user={session.user} />
         <Page />
       </Pane>
       <NewFolderDialog
         close={() => setIsShown(false)}
         isShown={newFolderIsShown}
-        onNewFolder={() => {}}
+        onNewFolder={handleNewFolder}
       />
     </Pane>
   );
-};
-
-App.defaultProps = {
-  folders: [],
 };
 
 /**
@@ -108,4 +124,34 @@ App.defaultProps = {
  *
  * @param context
  */
+export async function getServerSideProps(context) {
+  const session = await getSession(context);
+  // not signed in
+  if (!session || !session.user) {
+    return { props: {} };
+  }
+
+  const props: any = { session };
+  const { db } = await connectToDB();
+  const folders = await folder.getFolders(db, session.user.id);
+  props.folders = folders;
+
+  if (context.params.id) {
+    const activeFolder = folders.find((f) => f._id === context.params.id[0]);
+    const activeDocs = await doc.getDocsByFolder(db, activeFolder._id);
+    props.activeFolder = activeFolder;
+    props.activeDocs = activeDocs;
+
+    const activeDocId = context.params.id[1];
+
+    if (activeDocId) {
+      props.activeDoc = await doc.getOneDoc(db, activeDocId);
+    }
+  }
+
+  return {
+    props,
+  };
+}
+
 export default App;
